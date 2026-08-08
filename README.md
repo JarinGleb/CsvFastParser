@@ -1,2 +1,2 @@
 # CsvFastParser
-Csv parser with using LINQ and FileStream
+Fast Csv parser with using LINQ and FileStream
