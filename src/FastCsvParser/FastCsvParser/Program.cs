@@ -4,7 +4,7 @@ using System.Text;
 string filePath = GetFilePath();
 var lines = File.ReadLines(filePath, Encoding.UTF8);
 
-string line = "zzz,aaa,sss";
+string line = "13,C03fDADdAadAdCe,Mandy,Blake,Male,jefferynoble@example.org,(992)466-1305x4947,2007-12-08,\"Scientist, clinical (histocompatibility and immunogenetics)\",\"qqq \"\"EEE\"\"\"";
 var aa = CsvParser.Parseline(line);
 foreach (var c in aa)
 {

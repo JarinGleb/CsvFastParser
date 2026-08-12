@@ -6,28 +6,40 @@ namespace FastCsvParser.Parsers
 {
     public static class CsvParser
     {
-        public static string[] Parseline(string line, char delimeter = ',', char quotesType = '"')
+        public static string[] Parseline(string line, char delimeter = ',', char quotesSymbol = '"')
         {
-
             var fields = new List<string>();
-
-            StringBuilder sb = new StringBuilder();
+            bool inQuotes = false;
+            var sb = new StringBuilder();
 
             for (int i = 0; i < line.Length; i++)
             {
-                if (line[i] != delimeter)
+                char current = line[i];
+
+                if (current == quotesSymbol)
                 {
-                    sb.Append(line[i]);
+                    if (i + 1 < line.Length && line[i + 1] == quotesSymbol)
+                    {
+                        sb.Append(quotesSymbol);
+                        i++;
+                    }
+                    else
+                    {
+                        inQuotes = !inQuotes;
+                    }
                 }
-                else
+                else if (current == delimeter && !inQuotes)
                 {
                     fields.Add(sb.ToString());
                     sb.Clear();
                 }
+                else
+                {
+                    sb.Append(current);
+                }
             }
 
-            if (sb.Length > 0) 
-                fields.Add(sb.ToString());
+            fields.Add(sb.ToString());
 
             return fields.ToArray();
         }
