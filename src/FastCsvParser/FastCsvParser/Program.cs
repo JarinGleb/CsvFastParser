@@ -9,7 +9,7 @@ using (StreamReader reader = new StreamReader(filePath))
     string line;
     while ((line = reader.ReadLine()) != null)
     {
-        string[] fields = CsvParser.Parseline(line);
+        string[] fields = CsvParser.ParseLine(line);
         foreach (string field in fields)
         {
             Console.Write(field + ' ');

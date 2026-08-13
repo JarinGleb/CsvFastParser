@@ -6,8 +6,11 @@ namespace FastCsvParser.Parsers
 {
     public static class CsvParser
     {
-        public static string[] Parseline(string line, char delimeter = ',', char quotesSymbol = '"')
+        public static string[] ParseLine(string line, char delimeter = ',', char quotesSymbol = '"')
         {
+            if (line is null)
+                throw new ArgumentNullException(nameof(line));
+
             var fields = new List<string>();
             bool inQuotes = false;
             var sb = new StringBuilder();
