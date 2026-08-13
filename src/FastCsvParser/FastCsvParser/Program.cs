@@ -4,14 +4,19 @@ using System.Text;
 string filePath = GetFilePath();
 var lines = File.ReadLines(filePath, Encoding.UTF8);
 
-string line = "13,C03fDADdAadAdCe,Mandy,Blake,Male,jefferynoble@example.org,(992)466-1305x4947,2007-12-08,\"Scientist, clinical (histocompatibility and immunogenetics)\",\"qqq \"\"EEE\"\"\"";
-var aa = CsvParser.Parseline(line);
-foreach (var c in aa)
+using (StreamReader reader = new StreamReader(filePath))
 {
-    Console.WriteLine(c);
+    string line;
+    while ((line = reader.ReadLine()) != null)
+    {
+        string[] fields = CsvParser.Parseline(line);
+        foreach (string field in fields)
+        {
+            Console.Write(field + ' ');
+        }
+        Console.WriteLine();
+    }
 }
-
-
 
 string GetFilePath()
 {
