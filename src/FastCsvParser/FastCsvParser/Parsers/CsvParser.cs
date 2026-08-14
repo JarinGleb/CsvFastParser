@@ -47,24 +47,24 @@ namespace FastCsvParser.Parsers
             return fields.ToArray();
         }
 
-        public static string[] ParseLineSpan(ReadOnlySpan<char> kine, char delimeter = ',', char quotesSymbol = '"')
+        public static string[] ParseLineSpan(ReadOnlySpan<char> line, char delimeter = ',', char quotesSymbol = '"')
         {
-            if (line is null)
-                throw new ArgumentNullException(nameof(line));
+            if (line.IsEmpty)
+                return Array.Empty<string>();
 
             var fields = new List<string>();
+            var field = new List<char>();
             bool inQuotes = false;
-            var sb = new StringBuilder();
 
             for (int i = 0; i < line.Length; i++)
             {
-                char current = line[i];
+                char c = line[i];
 
-                if (current == quotesSymbol)
+                if (c == quotesSymbol)
                 {
                     if (i + 1 < line.Length && line[i + 1] == quotesSymbol)
                     {
-                        sb.Append(quotesSymbol);
+                        field.Add(quotesSymbol);
                         i++;
                     }
                     else
@@ -72,18 +72,18 @@ namespace FastCsvParser.Parsers
                         inQuotes = !inQuotes;
                     }
                 }
-                else if (current == delimeter && !inQuotes)
+                else if (c == delimeter && !inQuotes)
                 {
-                    fields.Add(sb.ToString());
-                    sb.Clear();
+                    fields.Add(new string(field.ToArray()));
+                    field.Clear();
                 }
                 else
                 {
-                    sb.Append(current);
+                    field.Add(c);
                 }
             }
 
-            fields.Add(sb.ToString());
+            fields.Add(new string(field.ToArray()));
             return fields.ToArray();
         }
 
@@ -98,6 +98,20 @@ namespace FastCsvParser.Parsers
                 while ((line = reader.ReadLine()) != null)
                 {
                     yield return ParseLine(line, delimeter, quotesSymbol);
+                }
+            }
+        }
+        public static IEnumerable<string[]> ReadCsvSpan(string filePath, char delimeter = ',', char quotesSymbol = '"')
+        {
+            if (string.IsNullOrEmpty(filePath))
+                throw new ArgumentNullException(nameof(filePath));
+
+            using (var reader = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return ParseLineSpan(line, delimeter, quotesSymbol);
                 }
             }
         }

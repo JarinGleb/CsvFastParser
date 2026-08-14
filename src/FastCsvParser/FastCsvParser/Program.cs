@@ -1,7 +1,7 @@
 ﻿using FastCsvParser.Models;
 using FastCsvParser.Parsers;
 
-var lines = CsvParser.ReadCsv(GetFilePath());
+var lines = CsvParser.ReadCsvSpan(GetFilePath());
 
 var users = lines
     .Skip(1)

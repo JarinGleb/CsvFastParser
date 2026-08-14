@@ -33,7 +33,7 @@ namespace FastCsvParser.Models
             Console.WriteLine($"Date of Birth  : {DateOfBirth:dd.MM.yyyy}");
             Console.WriteLine($"Sex            : {Sex}");
             Console.WriteLine($"Job Title      : {JobTitle}");
-            Console.WriteLine($"Возраст        : {CalculateAge(DateOfBirth)} years");
+            Console.WriteLine($"Age            : {CalculateAge(DateOfBirth)} years");
 
             Console.WriteLine();
             Console.WriteLine(new string('=', 50));
